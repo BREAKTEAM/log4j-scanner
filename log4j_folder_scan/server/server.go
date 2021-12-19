@@ -1,4 +1,4 @@
-package main
+package external_scan
 
 import (
 	"bufio"
@@ -9,8 +9,8 @@ import (
 	"os"
 )
 
-func main() {
-	l, err := net.Listen("tcp", ":8080")
+func External_Execute(port string) {
+	l, err := net.Listen("tcp", ":" + port)
 	if err != nil {
 		log.Fatal(err)
 	}

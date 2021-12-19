@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log4j-scanner/log4j_folder_scan"
+	"log4j-scanner/log4j_folder_scan/server"
 	"log4j-scanner/log4j_url_scan"
 	"os"
 )
@@ -11,18 +12,19 @@ import (
 func main() {
 
 	urlCheckCmd := flag.NewFlagSet("url", flag.ExitOnError)
-	hfName := urlCheckCmd.String("hf", "", "hf")
-	urName := urlCheckCmd.String("ur", "", "ur")
-	plName := urlCheckCmd.String("pl", "", "pl")
-	hnName := urlCheckCmd.String("hn", "", "hn")
+	hfName := urlCheckCmd.String("hf", "", "path to list header file")
+	urName := urlCheckCmd.String("ur", "", "path to list url file")
+	plName := urlCheckCmd.String("pl", "", "path to list payload file")
+	hnName := urlCheckCmd.String("hn", "", "your hostname to connect to (dnslog.cn/burp collabarator...)")
 
 	internalCheckCmd := flag.NewFlagSet("internal", flag.ExitOnError)
-	include_zip := urlCheckCmd.Bool("include-zip", false, "include-zip")
-	mode := urlCheckCmd.String("mode", "", "mode")
-	server := urlCheckCmd.String("server", "", "server")
-	online := urlCheckCmd.Bool("online", false, "online")
+	include_zip := internalCheckCmd.Bool("include-zip", false, "include zip files in the scan")
+	mode := internalCheckCmd.String("mode", "", "the output mode, either 'report' (every java archive pretty printed) or 'list' (list of potentially vulnerable files) (default 'report')")
+	server := internalCheckCmd.String("server", "", "server to listen result return")
+	online := internalCheckCmd.Bool("online", false, "go with server opton")
 
-	// internalCheckCmd := flag.NewFlagSet("internal", flag.ExitOnError)
+	externalCheckCmd := flag.NewFlagSet("external", flag.ExitOnError)
+	port := externalCheckCmd.String("port", "8080", "port to listen result from client")
 
 	// externalCheckCmd := flag.NewFlagSet("external", flag.ExitOnError)
 	if len(os.Args) < 2 {
@@ -45,9 +47,19 @@ func main() {
 			//fmt.Println("  tail:", internalCheckCmd.Args())
 
 			internal_scan.Internal_Execute(*include_zip, mode, server, online)
+		case "external":
+			externalCheckCmd.Parse(os.Args[2:])
+			// fmt.Println("subcommand 'internal'")
+			// fmt.Println("  include_zip:", *include_zip)
+			// fmt.Println("  mode:", *mode)
+			// fmt.Println("  server:", *server)
+			// fmt.Println("  online:", *online)
+			//fmt.Println("  tail:", internalCheckCmd.Args())
+
+			external_scan.External_Execute(*port)
 			
 		default:
-			fmt.Println("expected 'url' or 'internal' subcommands")
+			fmt.Println("expected 'url' or 'internal' or 'external' subcommands")
 			os.Exit(1)
 		}
 }
