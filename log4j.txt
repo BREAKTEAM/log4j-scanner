@@ -1,0 +1,18 @@
+https://reposhub.com/go/miscellaneous/hillu-local-log4j-vuln-scanner.html
+https://golangrepo.com/repo/name-log4j-scanner
+https://golangrepo.com/repo/hillu-local-log4j-vuln-scanner-go-security
+https://github.com/channyein1337/log4j-detect?ref=golangexample.com
+https://github.com/michael1026/log4jcheck
+https://github.com/name/log4j-scanner
+https://awesomeopensource.com/projects/log4j
+
+
+
+
+- Scan các ứng dụng, dịch vụ sử dụng Log4j trong máy chủ (vd: phiên bản Log4j, log file request...)  |
+- Scan intenal các end point (file bin chạy trên server)                                             | https://github.com/1lann/log4shelldetect
+- Scan extenal các end point (file bin chạy trên máy remote, nhập thông tin end point)               |
+
+(fuzz Log4shell payloads trong url, header, param,...)
+
+Bản beta build thành file bin, các bản sau build thành API
