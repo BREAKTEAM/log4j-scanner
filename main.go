@@ -35,7 +35,12 @@ func main() {
 	switch os.Args[1] {
 		case "url":
 			urlCheckCmd.Parse(os.Args[2:])
-			url_scan.Url_Execute(*hfName,*plName,*urName,*hnName)
+			if *hfName == "" || *plName == "" || *urName == "" || *hnName == "" {
+				fmt.Printf("Usage : go run . url -hf headers.txt -pl payloads.txt -ur urls.txt -hn xxx.burpcollaborator.net")
+			}else{
+				url_scan.Url_Execute(*hfName,*plName,*urName,*hnName)
+			}
+
 			//fmt.Println("  tail:", urlCheckCmd.Args())
 		case "internal":
 			internalCheckCmd.Parse(os.Args[2:])
